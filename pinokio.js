@@ -1,6 +1,6 @@
 const path = require('path')
 module.exports = {
-  version: "2.0",
+  version: "3.7",
   title: "IOPaint",
   description: "Image inpainting tool powered by SOTA AI models. Remove any unwanted object, defect, or even people from your pictures, and replace (powered by stable diffusion) anything in your pictures. https://www.iopaint.com/",
   icon: "icon.jpg",
@@ -10,6 +10,7 @@ module.exports = {
     let running = info.running("start.js")
     let runconf = info.running("start-config.js")
     let config = info.exists("app/config.json")
+    let link = info.running("link.js")
     if (installing) {
       return [{
         default: true,
@@ -91,6 +92,13 @@ module.exports = {
           text: "Reset",
           href: "reset.js",
         }]
+      } else if (link) {
+        return [{
+          default: true,
+          icon: 'fa-solid fa-terminal',
+          text: "Deduplicating",
+          href: "link.js",
+        }]
       } else {
         return [{
           default: true,
@@ -110,11 +118,16 @@ module.exports = {
           text: "Install",
           href: "install.js",
         }, {
+          icon: "fa-solid fa-file-zipper",
+          text: "<div><strong>Save Disk Space</strong><div>Deduplicates redundant library files</div></div>",
+          href: "link.js",
+        }, {
           icon: "fa-regular fa-circle-xmark",
-          text: "Reset",
+          text: "<div><strong>Reset</strong><div>Revert to pre-install state</div></div>",
           href: "reset.js",
+          confirm: "Are you sure you wish to reset the app?"
         }]
-      }  
+      }
     } else {
       return [{
         default: true,
